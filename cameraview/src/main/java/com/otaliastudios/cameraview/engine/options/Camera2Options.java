@@ -40,10 +40,10 @@ public class Camera2Options extends CameraOptions {
         CameraCharacteristics cameraCharacteristics = manager.getCameraCharacteristics(cameraId);
 
         // Facing
-        for (String cameraId1 : manager.getCameraIdList()) {
-            CameraCharacteristics cameraCharacteristics1 = manager
-                    .getCameraCharacteristics(cameraId1);
-            Integer cameraFacing = cameraCharacteristics1.get(LENS_FACING);
+        for (String cameraIdLensFacing : manager.getCameraIdList()) {
+            CameraCharacteristics cameraCharacteristicsCameraId = manager
+                    .getCameraCharacteristics(cameraIdLensFacing);
+            Integer cameraFacing = cameraCharacteristicsCameraId.get(LENS_FACING);
             if (cameraFacing != null) {
                 Facing value = mapper.unmapFacing(cameraFacing);
                 if (value != null) supportedFacing.add(value);
