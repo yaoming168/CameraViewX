@@ -169,30 +169,6 @@ public abstract class Option<T> {
         }
     }
 
-    public static class Engine extends ControlOption<com.otaliastudios.cameraview.controls.Engine> {
-        public Engine() {
-            super(com.otaliastudios.cameraview.controls.Engine.class, "Engine");
-        }
-
-        @Override
-        public void set(final @NonNull CameraView view, final @NonNull com.otaliastudios.cameraview.controls.Engine value) {
-            boolean started = view.isOpened();
-            if (started) {
-                view.addCameraListener(new CameraListener() {
-                    @Override
-                    public void onCameraClosed() {
-                        super.onCameraClosed();
-                        view.removeCameraListener(this);
-                        view.setEngine(value);
-                        view.open();
-                    }
-                });
-                view.close();
-            } else {
-                view.setEngine(value);
-            }
-        }
-    }
 
     public static class Preview extends ControlOption<com.otaliastudios.cameraview.controls.Preview> {
         public Preview() {

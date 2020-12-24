@@ -309,7 +309,7 @@ public class SnapshotVideoRecorder extends VideoRecorder implements RendererFram
     @Override
     public void onEncodingEnd(int stopReason, @Nullable Exception e) {
         // If something failed, undo the result, since this is the mechanism
-        // to notify Camera1Engine about this.
+        // to notify Camera2Engine about this.
         if (e != null) {
             LOG.e("Error onEncodingEnd", e);
             mResult = null;

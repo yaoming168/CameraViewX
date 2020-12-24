@@ -35,7 +35,6 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.otaliastudios.cameraview.controls.Audio;
 import com.otaliastudios.cameraview.controls.Control;
 import com.otaliastudios.cameraview.controls.ControlParser;
-import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.controls.Facing;
 import com.otaliastudios.cameraview.controls.Flash;
 import com.otaliastudios.cameraview.controls.Grid;
@@ -45,7 +44,6 @@ import com.otaliastudios.cameraview.controls.PictureFormat;
 import com.otaliastudios.cameraview.controls.Preview;
 import com.otaliastudios.cameraview.controls.VideoCodec;
 import com.otaliastudios.cameraview.controls.WhiteBalance;
-import com.otaliastudios.cameraview.engine.Camera1Engine;
 import com.otaliastudios.cameraview.engine.Camera2Engine;
 import com.otaliastudios.cameraview.engine.CameraEngine;
 import com.otaliastudios.cameraview.engine.offset.Reference;
@@ -129,7 +127,6 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
     private boolean mRequestPermissions;
     private HashMap<Gesture, GestureAction> mGestureMap = new HashMap<>(4);
     private Preview mPreview;
-    private Engine mEngine;
     private Filter mPendingFilter;
     private int mFrameProcessingExecutors;
 
@@ -194,7 +191,6 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
         mRequestPermissions = a.getBoolean(R.styleable.CameraView_cameraRequestPermissions,
                 DEFAULT_REQUEST_PERMISSIONS);
         mPreview = controls.getPreview();
-        mEngine = controls.getEngine();
 
         // Camera engine params
         int gridColor = a.getColor(R.styleable.CameraView_cameraGridColor,
@@ -307,11 +303,9 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
 
     /**
      * Engine is instantiated on creation and anytime
-     * {@link #setEngine(Engine)} is called.
      */
     private void doInstantiateEngine() {
-        LOG.w("doInstantiateEngine:", "instantiating. engine:", mEngine);
-        mCameraEngine = instantiateCameraEngine(mEngine, mCameraCallbacks);
+        mCameraEngine = instantiateCameraEngine(mCameraCallbacks);
         LOG.w("doInstantiateEngine:", "instantiated. engine:",
                 mCameraEngine.getClass().getSimpleName());
         mCameraEngine.setOverlay(mOverlayLayout);
@@ -338,21 +332,14 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
     /**
      * Instantiates the camera engine.
      *
-     * @param engine the engine preference
      * @param callback the engine callback
      * @return the engine
      */
     @NonNull
-    protected CameraEngine instantiateCameraEngine(@NonNull Engine engine,
+    protected CameraEngine instantiateCameraEngine(
                                                    @NonNull CameraEngine.Callback callback) {
-        if (mExperimental
-                && engine == Engine.CAMERA2
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return new Camera2Engine(callback);
-        } else {
-            mEngine = Engine.CAMERA1;
-            return new Camera1Engine(callback);
-        }
+
     }
 
     /**
@@ -894,8 +881,6 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
             setVideoCodec((VideoCodec) control);
         } else if (control instanceof Preview) {
             setPreview((Preview) control);
-        } else if (control instanceof Engine) {
-            setEngine((Engine) control);
         } else if (control instanceof PictureFormat) {
             setPictureFormat((PictureFormat) control);
         }
@@ -930,8 +915,6 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
             return (T) getVideoCodec();
         } else if (controlClass == Preview.class) {
             return (T) getPreview();
-        } else if (controlClass == Engine.class) {
-            return (T) getEngine();
         } else if (controlClass == PictureFormat.class) {
             return (T) getPictureFormat();
         } else {
@@ -979,15 +962,9 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
      * Controls the core engine. Should only be called
      * if this CameraView is closed (open() was never called).
      * Otherwise, it has no effect.
-     *
-     * @see Engine#CAMERA1
-     * @see Engine#CAMERA2
-     *
-     * @param engine desired engine
      */
-    public void setEngine(@NonNull Engine engine) {
+    public void setEngine() {
         if (!isClosed()) return;
-        mEngine = engine;
         CameraEngine oldEngine = mCameraEngine;
         doInstantiateEngine();
         if (mCameraPreview != null) mCameraEngine.setPreview(mCameraPreview);
@@ -1019,16 +996,7 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
         mCameraEngine.setHasFrameProcessors(!mFrameProcessors.isEmpty());
     }
 
-    /**
-     * Returns the current engine control.
-     *
-     * @see #setEngine(Engine)
-     * @return the current engine control
-     */
-    @NonNull
-    public Engine getEngine() {
-        return mEngine;
-    }
+
 
     /**
      * Returns a {@link CameraOptions} instance holding supported options for this camera
@@ -1452,7 +1420,7 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
      * When this parameter is true, the quality of the picture increases, but the latency
      * increases as well. Defaults to true.
      *
-     * This is a CAMERA2 only API. On CAMERA1, picture metering is always enabled.
+     * This is a CAMERA2 only API.
      *
      * @see #setPictureSnapshotMetering(boolean)
      * @param enable true to enable
@@ -1480,7 +1448,7 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
      * When this parameter is true, the quality of the picture increases, but the latency
      * increases as well. To keep snapshots fast, this defaults to false.
      *
-     * This is a CAMERA2 only API. On CAMERA1, picture snapshot metering is always disabled.
+     * This is a CAMERA2 only API.
      *
      * @see #setPictureMetering(boolean)
      * @param enable true to enable
@@ -1974,7 +1942,6 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
      * Controls whether CameraView should play sound effects on certain
      * events (picture taken, focus complete). Note that:
      * - On API level {@literal <} 16, this flag is always false
-     * - Camera1 will always play the shutter sound when taking pictures
      *
      * @param playSounds whether to play sound effects
      */
@@ -2437,8 +2404,6 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
 
     /**
      * Sets the max width for frame processing {@link Frame}s.
-     * This option is only supported by {@link Engine#CAMERA2} and will have no effect
-     * on other engines.
      *
      * @param maxWidth max width for frames
      */
@@ -2448,8 +2413,6 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
 
     /**
      * Sets the max height for frame processing {@link Frame}s.
-     * This option is only supported by {@link Engine#CAMERA2} and will have no effect
-     * on other engines.
      *
      * @param maxHeight max height for frames
      */

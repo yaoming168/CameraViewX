@@ -622,20 +622,8 @@ public abstract class CameraIntegrationTest<E extends CameraBaseEngine> extends 
         Op<Void> op = new Op<>(controller.mPlaySoundsTask);
         op.await(300);
 
-        if (controller instanceof Camera1Engine) {
-            Camera1Engine camera1Engine = (Camera1Engine) controller;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                Camera.CameraInfo info = new Camera.CameraInfo();
-                Camera.getCameraInfo(camera1Engine.mCameraId, info);
-                if (info.canDisableShutterSound) {
-                    assertEquals(newValue, camera.getPlaySounds());
-                }
-            } else {
-                assertEquals(oldValue, camera.getPlaySounds());
-            }
-        } else {
-            assertEquals(newValue, camera.getPlaySounds());
-        }
+
+        assertEquals(newValue, camera.getPlaySounds());
     }
 
     //endregion
@@ -1072,7 +1060,7 @@ public abstract class CameraIntegrationTest<E extends CameraBaseEngine> extends 
         camera.addFrameProcessor(processor);
         openSync(true);
 
-        // In Camera1, snapshots will clear the preview callback
+        // In Camera-1, snapshots will clear the preview callback
         // Ensure we restore correctly
         camera.takePictureSnapshot();
         waitForPictureResult(true);

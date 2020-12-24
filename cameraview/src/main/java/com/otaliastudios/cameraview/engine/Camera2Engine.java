@@ -726,7 +726,7 @@ public class Camera2Engine extends CameraBaseEngine implements
     protected Task<Void> onStopEngine() {
         try {
             LOG.i("onStopEngine:", "Clean up.", "Releasing camera.");
-            // Just like Camera1Engine, this call can hang (at least on emulators) and if
+            // Just like Camera2Engine, this call can hang (at least on emulators) and if
             // we don't find a way around the lock, it leaves the camera in a bad state.
             //
             // 12:33:28.152  2888  5470 I CameraEngine: onStopEngine: Clean up. Releasing camera.[0m
@@ -928,14 +928,14 @@ public class Camera2Engine extends CameraBaseEngine implements
         // Left (locked):          270 (270-0-270)
         // Right (locked):         90  (270-0-90)
         // Upside down (locked):   180 (270-0-180)
-        // Unlike Camera1, the correct formula seems to be deviceOrientation,
+        // Unlike Camera-1, the correct formula seems to be deviceOrientation,
         // which means offset(Reference.BASE, Reference.OUTPUT, Axis.ABSOLUTE).
         stub.rotation = getAngles().offset(Reference.BASE, Reference.OUTPUT, Axis.ABSOLUTE);
         stub.videoFrameRate = Math.round(mPreviewFrameRate);
         LOG.i("onTakeVideoSnapshot", "rotation:", stub.rotation, "size:", stub.size);
 
         // Start.
-        // The overlay rotation should alway be VIEW-OUTPUT, just liek Camera1Engine.
+        // The overlay rotation should alway be VIEW-OUTPUT, just liek Camera2Engine.
         int overlayRotation = getAngles().offset(Reference.VIEW, Reference.OUTPUT, Axis.ABSOLUTE);
         mVideoRecorder = new SnapshotVideoRecorder(this, glPreview, getOverlay(),
                 overlayRotation);

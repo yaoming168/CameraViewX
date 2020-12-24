@@ -3,7 +3,6 @@ package com.otaliastudios.cameraview.frame;
 import android.annotation.SuppressLint;
 
 import com.otaliastudios.cameraview.CameraLogger;
-import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.size.Size;
 
 import androidx.annotation.NonNull;
@@ -117,7 +116,6 @@ public class Frame {
     /**
      * Returns the class returned by {@link #getData()}.
      * This class depends on the engine that produced this frame.
-     * - {@link Engine#CAMERA1} will produce byte[] arrays
      * - {@link Engine#CAMERA2} will produce {@link android.media.Image}s
      * @return the data class
      */

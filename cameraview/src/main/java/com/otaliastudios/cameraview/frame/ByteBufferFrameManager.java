@@ -20,11 +20,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  * We can work in two modes, depending on whether a
  * {@link BufferCallback} is passed to the constructor. The modes changes the buffer behavior.
  *
- * 1. {@link #BUFFER_MODE_DISPATCH}: in this mode, as soon as we have a buffer, it is dispatched to
- *    the {@link BufferCallback}. The callback should then fill the buffer, and finally call
- *    {@link FrameManager#getFrame(Object, long)} to receive a frame.
- *    This is used for Camera1.
- *
  * 2. {@link #BUFFER_MODE_ENQUEUE}: in this mode, the manager internally keeps a queue of byte
  *    buffers, instead of handing them to the callback. The users can ask for buffers through
  *    {@link #getBuffer()}.

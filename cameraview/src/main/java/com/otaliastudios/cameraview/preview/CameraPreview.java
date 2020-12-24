@@ -324,9 +324,6 @@ public abstract class CameraPreview<T extends View, Output> {
      *
      * Sets the rotation, if any, to be applied when drawing.
      * Sometimes we don't need this:
-     * - In Camera1, the buffer producer sets our Surface size and rotates it based on the value
-     *   that we pass to {@link android.hardware.Camera.Parameters#setDisplayOrientation(int)},
-     *   so the stream that comes in is already rotated.
      * - In Camera2, for {@link android.view.SurfaceView} based previews, apparently it just works
      *   out of the box. The producer might be doing something similar.
      *

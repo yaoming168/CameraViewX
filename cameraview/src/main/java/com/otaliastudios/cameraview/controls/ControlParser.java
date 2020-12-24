@@ -38,7 +38,6 @@ public class ControlParser {
         audio = array.getInteger(R.styleable.CameraView_cameraAudio, Audio.DEFAULT.value());
         videoCodec = array.getInteger(R.styleable.CameraView_cameraVideoCodec,
                 VideoCodec.DEFAULT.value());
-        engine = array.getInteger(R.styleable.CameraView_cameraEngine, Engine.DEFAULT.value());
         pictureFormat = array.getInteger(R.styleable.CameraView_cameraPictureFormat,
                 PictureFormat.DEFAULT.value());
     }
@@ -89,10 +88,7 @@ public class ControlParser {
         return VideoCodec.fromValue(videoCodec);
     }
 
-    @NonNull
-    public Engine getEngine() {
-        return Engine.fromValue(engine);
-    }
+
 
     @NonNull
     public PictureFormat getPictureFormat() {

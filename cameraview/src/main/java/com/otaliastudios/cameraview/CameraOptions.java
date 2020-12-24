@@ -5,7 +5,7 @@ import android.graphics.ImageFormat;
 
 import com.otaliastudios.cameraview.controls.Audio;
 import com.otaliastudios.cameraview.controls.Control;
-import com.otaliastudios.cameraview.controls.Engine;
+//import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.controls.Facing;
 import com.otaliastudios.cameraview.controls.Flash;
 import com.otaliastudios.cameraview.controls.PictureFormat;
@@ -107,8 +107,6 @@ public abstract class CameraOptions {
             return (Collection<T>) Arrays.asList(VideoCodec.values());
         } else if (controlClass.equals(WhiteBalance.class)) {
             return (Collection<T>) getSupportedWhiteBalance();
-        } else if (controlClass.equals(Engine.class)) {
-            return (Collection<T>) Arrays.asList(Engine.values());
         } else if (controlClass.equals(Preview.class)) {
             return (Collection<T>) Arrays.asList(Preview.values());
         } else if (controlClass.equals(PictureFormat.class)) {

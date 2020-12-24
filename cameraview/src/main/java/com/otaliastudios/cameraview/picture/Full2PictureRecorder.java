@@ -137,7 +137,7 @@ public class Full2PictureRecorder extends FullPictureRecorder
         buffer.get(bytes);
         mResult.data = bytes;
 
-        // Just like Camera1, unfortunately, the camera might rotate the image
+        // Just like Camera1-, unfortunately, the camera might rotate the image
         // and put EXIF=0 instead of respecting our EXIF and leave the image unaltered.
         mResult.rotation = 0;
         try {

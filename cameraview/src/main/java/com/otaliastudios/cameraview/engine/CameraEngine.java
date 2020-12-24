@@ -208,7 +208,7 @@ public abstract class CameraEngine implements
                                  final boolean isUncaught) {
         // 1. If this comes from the exception handler, the thread has crashed. Replace it.
         // Most actions are wrapped into Tasks so don't go here, but some callbacks do
-        // (at least in Camera1, e.g. onError).
+        // (at least in Camera-1, e.g. onError).
         if (isUncaught) {
             LOG.e("EXCEPTION:", "Handler thread is gone. Replacing.");
             recreateHandler(false);
@@ -312,7 +312,7 @@ public abstract class CameraEngine implements
             boolean success = latch.await(6, TimeUnit.SECONDS);
             if (!success) {
                 // This thread is likely stuck. The reason might be deadlock issues in the internal
-                // camera implementation, at least in emulators: see Camera1Engine and Camera2Engine
+                // camera implementation, at least in emulators: see  Camera2Engine
                 // onStopEngine() implementation and comments.
                 LOG.e("DESTROY: Could not destroy synchronously after 6 seconds.",
                         "Current thread:", Thread.currentThread(),

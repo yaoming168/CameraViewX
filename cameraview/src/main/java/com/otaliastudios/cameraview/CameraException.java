@@ -27,7 +27,7 @@ public class CameraException extends RuntimeException {
 
     /**
      * Camera was forced to disconnect.
-     * In Camera1, this is thrown when android.hardware.Camera.CAMERA_ERROR_EVICTED
+     * In Camera-1, this is thrown when android.hardware.Camera.CAMERA_ERROR_EVICTED
      * is caught.
      */
     public static final int REASON_DISCONNECTED = 3;

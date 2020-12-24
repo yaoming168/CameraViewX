@@ -117,7 +117,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 // Layout
                 new Option.Width(), new Option.Height(),
                 // Engine and preview
-                new Option.Mode(), new Option.Engine(), new Option.Preview(),
+                new Option.Mode(), new Option.Preview(),
                 // Some controls
                 new Option.Flash(), new Option.WhiteBalance(), new Option.Hdr(),
                 new Option.PictureMetering(), new Option.PictureSnapshotMetering(),

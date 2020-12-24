@@ -30,8 +30,8 @@ import javax.microedition.khronos.opengles.GL10;
  *
  * - in the SurfaceTexture constructor we pass the GL texture handle that we have created.
  *
- * - The SurfaceTexture is linked to the Camera1Engine object. The camera will pass down
- *   buffers of data with a specified size (that is, the Camera1Engine preview size).
+ * - The SurfaceTexture is linked to the Camera2Engine object. The camera will pass down
+ *   buffers of data with a specified size (that is, the Camera2Engine preview size).
  *   For this reason we don't have to specify surfaceTexture.setDefaultBufferSize()
  *   (like we do, for example, in Snapshot1PictureRecorder).
  *

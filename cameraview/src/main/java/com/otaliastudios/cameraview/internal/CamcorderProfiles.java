@@ -54,8 +54,8 @@ public class CamcorderProfiles {
     public static CamcorderProfile get(@NonNull String cameraId, @NonNull Size targetSize) {
         // It seems that the way to do this is to use Integer.parseInt().
         try {
-            int camera1Id = Integer.parseInt(cameraId);
-            return get(camera1Id, targetSize);
+            int camera2Id = Integer.parseInt(cameraId);
+            return get(camera2Id, targetSize);
         } catch (NumberFormatException e) {
             LOG.w("NumberFormatException for Camera2 id:", cameraId);
             return CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
