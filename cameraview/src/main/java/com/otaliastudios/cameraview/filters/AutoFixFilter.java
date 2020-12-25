@@ -1,6 +1,7 @@
 package com.otaliastudios.cameraview.filters;
 
 import android.opengl.GLES20;
+import android.opengl.GLES30;
 
 import androidx.annotation.NonNull;
 

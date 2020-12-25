@@ -38,6 +38,34 @@ import com.otaliastudios.opengl.program.GlTextureProgram;
  * {@link #createDefaultFragmentShader(String)}.
  *
  */
+
+/**{@link Filter}的基本实现，只把片段着色器留给子类。
+参见{@link NoFilter}的非抽象实现。
+这个类提供了一个默认的顶点着色器实现，在大多数情况下是不需要的需要修改。
+因此，大多数效果可以通过简单地改变片段着色器来呈现
+通过重写{@link #getFragmentShader()}。
+
+所有的{@link BaseFilter}都应该有一个无参数的公共构造函数。
+由于这个原因，该类将尝试自动实现{@link #copy()}。
+如果你的过滤器实现了公共参数，请实现{@link OneParameterFilter}
+和{@link TwoParameterFilter}来处理它们，并将它们自动传递给副本。
+
+注意-这个类要求变量有一个特定的名称:
+- {@link #vertexPositionName}
+- {@link #vertexTransformMatrixName}
+- {@link #vertexModelViewProjectionMatrixName}
+- {@link #vertexTextureCoordinateName}
+- {@link #fragmentTextureCoordinateName}
+你可以改变这些变量，例如在你的构造函数，或改变你的
+顶点和片段着色器代码使用它们。
+
+注意- {@link android.graphics。
+SurfaceTexture}限制:
+我们只支持{@link android.opengl。
+GLES11Ext # GL_TEXTURE_EXTERNAL_OES}结构目标
+它必须在片段着色器中指定为samplerExternalOES纹理。
+你也必须明确要求扩展:见{@link # createDefaultFragmentShader (String)}。*/
+
 public abstract class BaseFilter implements Filter {
 
     private final static String TAG = BaseFilter.class.getSimpleName();
